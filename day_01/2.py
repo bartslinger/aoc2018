@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
 import time
+import numpy as np
 
 f = open('input', 'r')
 input = [int(line) for line in f.readlines()]
 
 def get_first_double_freq(input):
 	sum = 0
-	a = [0]
+	a = np.array([0])
 	while True:
 		for line in input:
 			sum = sum + int(line)
-			if sum not in a:
-				a.append(sum)
-			else:
+			i = np.searchsorted(a, sum)
+			a = np.insert(a, i, sum)
+			if len(a)-1 == i:
+				continue
+			if a[i+1] == sum:
 				print("already seen: ",  sum)
 				return sum
 
