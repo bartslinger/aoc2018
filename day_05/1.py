@@ -17,29 +17,37 @@ f.close()
 # Convert characters to numbers
 numbers = [ord(c) for c in line]
 
-# Iterate over polymer
-length = len(numbers)
-active = np.ones(length, dtype=int)
-inactive = np.zeros(length, dtype=int)
-prev = 0
-for cur in range(1,len(numbers)):
-	diff = abs(numbers[cur] - numbers[prev])
-	if diff == 32:
-		# set these two to inactive
-		print("removing", line[cur], line[prev])
-		active[cur] = 0
-		active[prev] = 0
-		inactive[cur] = 1
-		inactive[prev] = 1
-		length -= 2
-		while active[prev] == 0:
-			prev -= 1
-	else:
-		prev = cur
+def remaining_length(numbers):
+	# Iterate over polymer
+	length = len(numbers)
+	active = np.ones(length, dtype=int)
+	prev = 0
+	for cur in range(1,len(numbers)):
+		if prev < 0:
+			prev = cur
+			continue
+		diff = abs(numbers[cur] - numbers[prev])
+		if diff == 32:
+			# set these two to inactive
+			active[cur] = 0
+			active[prev] = 0
+			length -= 2
+			while active[prev] == 0 and prev >= 0:
+				prev -= 1
+				if prev < 0:
+					break
+		else:
+			prev = cur
 
-print(length)
-idc = active.nonzero()[0].tolist()
-res = [line[i] for i in idc]
-res = ''.join(res)
-print(res)
-#print(len(numbers), "-", len(res))
+	return length
+
+print("Answer 1:", remaining_length(numbers))
+
+lengths = [0] * 26
+for i in range(0,26):
+	nums_stripped = [n for n in numbers if n != 65+i and n != 65+32+i]
+	lengths[i] = remaining_length(nums_stripped)
+	print(chr(i+65+32), lengths[i])
+
+min_idx = np.argmin(lengths)
+print("Answer 2:", chr(min_idx+65), lengths[min_idx])

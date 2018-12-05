@@ -18,18 +18,17 @@ f.close()
 numbers = [ord(c) for c in line]
 
 # Iterate over polymer
-print(numbers)
+#print(numbers)
 
 while True:
 	startlen = len(numbers)
 	for i in range(0, len(numbers)-1):
 		diff = abs(numbers[i+1] - numbers[i])
 		if diff == 32:
+			print("removing", chr(numbers[i+1]), chr(numbers[i]))
 			del numbers[i:i+2]
-			print(startlen-2)
 			break
 	endlen = len(numbers)
 	if startlen == endlen:
 		break
-print(numbers)
 print(len(numbers))
