@@ -25,7 +25,7 @@ uint64_t play(uint64_t players, uint64_t last_marble) {
 	// Make an array of all marbles
 	uint64_t num_marbles = last_marble+1;
 	//std::cout << "trying to allocate" << std::endl;
-	Marble marbles[num_marbles];
+	Marble* marbles = new Marble[num_marbles];
 	//std::cout << "created " << num_marbles << " marbles" << std::endl;
 
 	// Assign values
@@ -83,6 +83,7 @@ uint64_t play(uint64_t players, uint64_t last_marble) {
 			most_points = points[p];
 		}
 	}
+	delete marbles;
 	return most_points;
 }
 
@@ -118,7 +119,7 @@ int main() {
 	uint64_t winning_score = 0;
 	winning_score = play(418, 71339);
 	std::cout << "Score: " << winning_score << std::endl;
-	std::cout << "Part2: " << play(418, 71339*10) << std::endl;
+	std::cout << "Part2: " << play(418, 71339*100) << std::endl;
 
 
 	return 0;
