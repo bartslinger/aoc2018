@@ -34,11 +34,11 @@ def show_sky(steps):
 		coords[i,:] = [l['x'] + steps * l['vx'], l['y'] + steps * l['vy']]
 	print(min(coords[:,1]), max(coords[:,1]))
 	coords -= [min(coords[:,0]), min(coords[:,1])]
-	letters_per_row = 20
-	for l in range(min(coords[:,0]), max(coords[:,0]), 6*letters_per_row):
+	letters_per_row = 8
+	for l in range(min(coords[:,0]), max(coords[:,0]), 8*letters_per_row):
 		# print one letter
-		letter = np.zeros([10,6*letters_per_row], dtype=int)
-		cc = [c for c in coords if c[0] >= l and c[0] < l+6*letters_per_row]
+		letter = np.zeros([10,8*letters_per_row], dtype=int)
+		cc = [c for c in coords if c[0] >= l and c[0] < l+8*letters_per_row]
 		for c in cc:
 			letter[c[1], c[0]-l] = 1
 		show_letter(letter)
